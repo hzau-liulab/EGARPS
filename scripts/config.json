@@ -1,0 +1,8 @@
+{
+"dssp": "/8Tdata/jz/soft/anaconda3/envs/bioconda/bin/mkdssp", 
+"dssr": "/home/zhengjiang/software/DSSR/x3dna-dssr", 
+"naccess": "naccess", 
+"ghecom": "/8Tdata/jz/soft/ghecom/ghecom",
+"checkpoint_for_esm":"/8Tdata/esm_model/checkpoints/esm2_t33_650M_UR50D.pt",
+"checkpoint_for_fm":"/8Tdata/jz/deepbindRes/deepbindRes_models/NABSdata/FMmodel/RNA-FM_pretrained.pth"
+}
