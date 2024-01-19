@@ -15,6 +15,7 @@ Download pre-trained model from [this link](https://drive.google.com/file/d/1Fux
 ## 2. Configuration
     conda env create -f environment.yml  
     conda activate EGARPS  
+&  
 Edit the config file (***scripts/config.json***) to suit your needs  
 ## 3. Run EGARPS for prediction
     cd ./scripts/
