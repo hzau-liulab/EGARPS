@@ -1,6 +1,6 @@
 # EGARPS
 # Description
-EGARPS is a novel tool for assessing the nativeness of protein-RNA complexes, which achieves high prediction accuracy by integrating multi-view features with two well-designed modules, an intra-molecular module and an inter-molecular module.  
+EGARPS is a novel tool for evaluating protein-RNA complex structures, which achieves high accuracy by integrating well-designed intermolecular and intramolecular modules with a series of biophysically inspired descriptors.  
 ![image](img/F1.png)  
 
 # Third-party software needed
