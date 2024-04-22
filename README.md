@@ -1,7 +1,7 @@
 # EGARPS
 # Description
 EGARPS is a novel tool for assessing the nativeness of protein-RNA complexes, which achieves high prediction accuracy by integrating multi-view features with two well-designed modules, an intra-molecular module and an inter-molecular module.  
-![image](img/flow.jpg)  
+![image](img/F1.png)  
 
 # Third-party software needed
 GHECOM https://pdbj.org/ghecom/  
@@ -22,4 +22,4 @@ Edit the config file (***scripts/config.json***) to suit your needs
     python predict.py ../example/complex1.pdb
 
 # Citation
-Accurately evaluate RNA-protein complex structures through multi-view features and neural networks. *Submitted*, 2024.
+Graph learning-based scoring of RNA-protein complex structures using EGARPS. *Submitted*, 2024.
