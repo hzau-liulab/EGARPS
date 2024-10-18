@@ -1,1 +1,3 @@
 The *RMSD.pkl* file contains the interface RMSDs for all decoy conformations.
+All the data used as testing sets can be downloaded from http://liulab.hzau.edu.cn/EGARPS/data.html.
+Roughly 100G of storage space is required.
