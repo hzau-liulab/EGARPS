@@ -33,10 +33,10 @@ def get_graph_represent(pdb_represent,savepath):
             pickle.dump(graph,f)
     return graph
 
-def get_feature_represent(pdb):
-    fasta_all(pdb)
+def get_feature_represent(pdb, academic=True):
+    lp,lr = fasta_all(pdb)
     pymol_pdb=pdb.replace('.pdb','_fix_pymol_4.5A.pkl')
-    onehot(os.path.join(os.path.dirname(pdb),'all_protein.fasta'),
+    od = onehot(os.path.join(os.path.dirname(pdb),'all_protein.fasta'),
            os.path.join(os.path.dirname(pdb),'all_rna.fasta'),
            os.path.join(os.path.dirname(pdb),'onehot.pkl'))
     
@@ -44,9 +44,19 @@ def get_feature_represent(pdb):
              os.path.join(os.path.dirname(pdb),'all_rna.fasta'),
              os.path.join(os.path.dirname(pdb),'position.pkl'))
     
-    ss(pymol_pdb,os.path.join(os.path.dirname(pdb),'ss.pkl'))
-    torsion(pymol_pdb,os.path.join(os.path.dirname(pdb),'backbone_torsion.pkl'))
-    rsa(pymol_pdb,os.path.join(os.path.dirname(pdb),'rsa.pkl'))
+    td = ss(pymol_pdb,os.path.join(os.path.dirname(pdb),'ss.pkl'), academic)
+    if not academic:
+        with open(os.path.join(os.path.dirname(pdb),'ss.pkl'), 'wb') as f:
+            pickle.dump({'test':{k:td['test'][k] if k in td['test'] else np.zeros((v.shape[0], 7)) for k,v in od['test'].items()}}, f)
+    td = torsion(pymol_pdb,os.path.join(os.path.dirname(pdb),'backbone_torsion.pkl'),academic)
+    if not academic:
+        with open(os.path.join(os.path.dirname(pdb),'backbone_torsion.pkl'),'wb') as f:
+            pickle.dump({'test':{k:td['test'][k] if k in td['test'] else np.zeros((v.shape[0], 12)) for k,v in od['test'].items()}}, f)
+    if academic:
+        rsa(pymol_pdb,os.path.join(os.path.dirname(pdb),'rsa.pkl'))
+    else:
+        with open(os.path.join(os.path.dirname(pdb),'rsa.pkl'), 'wb') as f:
+            pickle.dump({'test':{k:np.zeros((v.shape[0], 1)) for k,v in od['test'].items()}}, f)
     lap(pymol_pdb,os.path.join(os.path.dirname(pdb),'lap.pkl'))
     pocketness(pymol_pdb,os.path.join(os.path.dirname(pdb),'pocketness.pkl'))
     ResidueEmbedding(os.path.join(os.path.dirname(pdb),'all_protein.fasta'),
@@ -76,10 +86,10 @@ def DataGenerate(pre_graph):
     
     return
 
-def get_input_data(pdb):
+def get_input_data(pdb, academic=True):
     pdb_represent=get_pdb_represent(pdb,pdb.replace('.pdb','_fix_pymol_4.5A.pkl'))
     get_graph_represent(pdb_represent,pdb.replace('.pdb','.pkl'))
-    get_feature_represent(pdb)
+    get_feature_represent(pdb, academic)
     DataGenerate(pdb.replace('.pdb','.pkl'))
     return pdb.replace('.pdb','.pkl')
 

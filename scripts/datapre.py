@@ -721,6 +721,11 @@ DIHEDRAL_ANGLE_ID_TO_ATOM_NAMES = {
     2: ['C', 'N', 'CA', 'C']
 }
 
+ENCODE_RES = ['ALA','ARG','ASN','ASP','CYS',
+              'GLN','GLU','GLY','HIS','ILE',
+              'LEU','LYS','MET','PHE','PRO',
+              'SER','THR','TRP','TYR','VAL',
+              'A','G','C','U']
 
 def get_allowable_feats(ca_only: bool):
     return [BASE_AMINO_ACIDS, ] if ca_only else [STD_ATOM_NAMES, ]
@@ -1258,6 +1263,7 @@ def process_pdb_into_graph(input_filepath: str,
     graph.ndata['moltype']=pre_computed_feat['moltype']
     
     graph.ndata['atom_number_ori']=torch.tensor(orig_pred_atom_df['atom_number'].values)
+    graph.ndata['residue']=torch.IntTensor([ENCODE_RES.index(x) if x in ENCODE_RES else -1 for x in input_atom_df['residue_name'].tolist()])
 
     """Encode edge features in graph"""
     # Positional encoding for each edge (used for sequentially-ordered inputs like proteins)

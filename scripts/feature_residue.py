@@ -46,7 +46,7 @@ def onehot(fasta_pro,fasta_rna,savepath):
                        **fasta_to_onehot(fasta_rna,STD_NUCLEOTIDE_NAME)}
     with open(savepath,'wb') as f:
         pickle.dump(feat_dict,f)
-
+    return feat_dict
 
 # =============================================================================
 # # residue position
@@ -170,7 +170,7 @@ def get_protein_rna(pymol_pdb):
         monomer_dict[k]='\n'.join([pdb_dict['dict_pdb'][x] for x in atom_idt])
     return monomer_dict
 
-def get_ss_feat_for_dir(pymol_pdb):
+def get_ss_feat_for_dir(pymol_pdb, academic=True):
     dir_feat_dict=dict()
     for x in pymol_pdb:
         print(x,end='\t')
@@ -180,18 +180,19 @@ def get_ss_feat_for_dir(pymol_pdb):
             if re.search('protein',k):
                 dir_feat_dict[k]=get_ss_protein(v)
             elif re.search('rna',k):
-                dir_feat_dict[k]=get_ss_rna(v)
+                if academic:
+                    dir_feat_dict[k]=get_ss_rna(v)
             else:
                 raise ValueError('monomer ERROR')
         print()
     return dir_feat_dict
 
-def ss(pymol_pdb,savepath):
+def ss(pymol_pdb,savepath, academic=True):
     feat_dict=dict()
-    feat_dict['test']={**get_ss_feat_for_dir([pymol_pdb])}
+    feat_dict['test']={**get_ss_feat_for_dir([pymol_pdb], academic)}
     with open(savepath,'wb') as f:
         pickle.dump(feat_dict,f)
-
+    return feat_dict
 
 # =============================================================================
 # # residue backbone torsion angle
@@ -313,7 +314,7 @@ def get_angle_rna(rna):
     shutil.rmtree(temp_dir)
     return np.hstack((etalist,thetalist,eta1list,theta1list,eta2list,theta2list))
 
-def get_universal_feat_for_dir(pymol_pdb,protein_fuc,rna_fuc):
+def get_universal_feat_for_dir(pymol_pdb,protein_fuc,rna_fuc, academic=True):
     dir_feat_dict=dict()
     for x in pymol_pdb:
         print(x,end='\t')
@@ -323,7 +324,8 @@ def get_universal_feat_for_dir(pymol_pdb,protein_fuc,rna_fuc):
             if re.search('protein',k):
                 dir_feat_dict[k]=protein_fuc(v)
             elif re.search('rna',k):
-                dir_feat_dict[k]=rna_fuc(v)
+                if academic:
+                    dir_feat_dict[k]=rna_fuc(v)
             else:
                 raise ValueError('monomer ERROR')
         print()
@@ -352,21 +354,25 @@ def fasta_all(pdb):
     split_pdb(pdb)
     fasta_pro=get_fasta(pdb.replace('.pdb','_protein.pdb'), types='protein')
     fasta_rna=get_fasta(pdb.replace('.pdb','_rna.pdb'), types='rna')
+    pro_len=0; rna_len=0
     with open(os.path.dirname(pdb)+'/'+'all_protein.fasta','w') as f:
         for k,v in fasta_pro.items():
             f.write(k+'\n')
             f.write(''.join(v)+'\n')
+            pro_len += len(v)
     with open(os.path.dirname(pdb)+'/'+'all_rna.fasta','w') as f:
         for k,v in fasta_rna.items():
             f.write(k+'\n')
             f.write(''.join(v)+'\n')
+            rna_len += len(v)
+    return pro_len, rna_len
 
-def torsion(pymol_pdb,savepath):
+def torsion(pymol_pdb,savepath, academic):
     feat_dict=dict()
-    feat_dict['test']={**get_universal_feat_for_dir([pymol_pdb],get_angle_protein,get_angle_rna)}
+    feat_dict['test']={**get_universal_feat_for_dir([pymol_pdb],get_angle_protein,get_angle_rna,academic)}
     with open(savepath,'wb') as f:
         pickle.dump(feat_dict,f)
-
+    return feat_dict
 
 # =============================================================================
 # # residue RSA or LAP

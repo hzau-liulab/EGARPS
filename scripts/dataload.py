@@ -16,7 +16,8 @@ from dgl.dataloading import GraphDataLoader
 import torch.multiprocessing
 # torch.multiprocessing.set_sharing_strategy('file_system')
 
-from datapre import STD_ATOM_NAMES, compute_rel_geom_feats
+from datapre import STD_ATOM_NAMES, compute_rel_geom_feats, ENCODE_RES
+from atom import AtomPair
 
 
 class HeteroGraphDataset(dgl.data.DGLDataset):
@@ -237,7 +238,12 @@ class HeteroGraphDataset_resgraph(HeteroGraphDataset):
         knn_graph.ndata['moltype']=g.ndata['moltype'][res_index]
         knn_graph.ndata['residue_number']=g.ndata['residue_number'][res_index]
         if len(knn_graph.nodes())>1:
-            knn_graph.edata['x']=self._assign_edge_geom_feat(g,knn_graph)
+            if types=='inter':
+                knn_graph.edata['x']=torch.cat((self._assign_edge_geom_feat(g,knn_graph),
+                                                self._assign_edge_atom_feat(g,knn_graph)), 
+                                               dim=1)
+            else:
+                knn_graph.edata['x']=self._assign_edge_geom_feat(g,knn_graph)
         knn_graph.ndata.pop('residue_number')
         return knn_graph
     
@@ -254,6 +260,47 @@ class HeteroGraphDataset_resgraph(HeteroGraphDataset):
         atoms_df=pd.DataFrame(data)
         rel_geom=compute_rel_geom_feats(g, atoms_df)
         return rel_geom
+    
+    def _assign_edge_atom_feat(self,ori_g,g):
+        dist=torch.cdist(ori_g.ndata['coord'][ori_g.ndata['moltype']==0], 
+                         ori_g.ndata['coord'][ori_g.ndata['moltype']==1])
+        
+        feat_dict=dict()
+        indices=torch.arange(0,len(ori_g.ndata['residue_number']))
+        for i in g.nodes()[:-1]:
+            for j in g.nodes()[i+1:]:
+                i_index=ori_g.ndata['residue_number']==g.ndata['residue_number'][i]
+                j_index=ori_g.ndata['residue_number']==g.ndata['residue_number'][j]
+                feat=torch.zeros((20,12))
+                if ori_g.ndata['moltype'][i_index][0]==ori_g.ndata['moltype'][j_index][0]:
+                    feat=feat.reshape(1,-1)
+                else:
+                    for ii in indices[i_index]:
+                        for jj in indices[j_index]:
+                            prpo=AtomPair(ENCODE_RES[ori_g.ndata['residue'][ii]],
+                                          STD_ATOM_NAMES[ori_g.ndata['x'][ii,:65].int().tolist().index(1)],
+                                          ENCODE_RES[ori_g.ndata['residue'][jj]],
+                                          STD_ATOM_NAMES[ori_g.ndata['x'][jj,:65].int().tolist().index(1)],)
+                            if None in prpo:
+                                continue
+                            if ori_g.ndata['moltype'][ii]==1:
+                                ii-=dist.shape[0]
+                            if ori_g.ndata['moltype'][jj]==1:
+                                jj-=dist.shape[0]
+                            feat[prpo[0],prpo[1]]=dist[ii,jj]
+                    feat=feat.reshape(1,-1)
+                feat_dict[(i.item(),j.item())]=feat
+        # print(feat_dict.keys())
+        atom_feat=list()
+        for i,j in zip(g.edges()[0],g.edges()[1]):
+            i=i.item()
+            j=j.item()
+            if (i,j) in feat_dict:
+                atom_feat.append(feat_dict[(i,j)])
+            else:
+                atom_feat.append(feat_dict[(j,i)])
+        atom_feat=torch.row_stack(atom_feat)
+        return atom_feat
     
     def _install_external_feat(self,g,atom_res_index,tag,feat_type):
         atom_num=g.ndata['atom_number_ori'].tolist()

@@ -99,8 +99,10 @@ class Attention(nn.Module):
 
 
 class Graph_Model(nn.Module):
-    def __init__(self, in_feats1=1992, in_feats2=1992, edge_feats=12, num_layers=2, knn=12):
+    def __init__(self, in_feats1=1992, in_feats2=1992, edge_feats=12, num_layers=2, knn=12, mid=None):
         super(Graph_Model, self).__init__()
+        
+        self.added_edge_feats = 240 if mid[0] != 'm' else 0
         
         # self.layers = nn.Sequential(*[
         #     Graph_EGNN(in_feats1, hidden_dim=(in_feats1+in_feats2+edge_feats)*1, out_dim=in_feats1+in_feats2, edge_dim=edge_feats)]+
@@ -126,7 +128,7 @@ class Graph_Model(nn.Module):
         self.gru1=GRU(in_size=in_feats1,hidden_size=in_feats1,out_size=in_feats1)
         self.gru2=GRU(in_size=in_feats1,hidden_size=in_feats1,out_size=in_feats1)
         
-        self.egnn=dglnn.EGNNConv(in_feats1,in_feats1,in_feats1,edge_feats)
+        self.egnn=dglnn.EGNNConv(in_feats1,in_feats1,in_feats1,edge_feats+self.added_edge_feats)
         
         self.egnn1=dglnn.EGNNConv(in_feats1,in_feats1,in_feats1,edge_feats)
         self.egnn2=dglnn.EGNNConv(in_feats1,in_feats1,in_feats1,edge_feats)
@@ -148,6 +150,8 @@ class Graph_Model(nn.Module):
         inter_g,pro_g,rna_g=g
         
         g,hx,ex,coord=self._get_feats(inter_g)
+        if not self.added_edge_feats:
+            ex=ex[:,:12]
         hxe,_=self.egnn(g,hx,coord,ex)
         # inter_g.ndata['h']=hxe
         # inter_he=dgl.mean_nodes(inter_g,'h')
@@ -216,7 +220,7 @@ class Graph_Model(nn.Module):
         return h,h_o
     
     def _split_batch_feat(self,lens,feat):
-        insert_value=torch.tensor([0],device='cuda')
+        insert_value=torch.tensor([0],device=feat.device)
         lens=torch.cumsum(lens,dim=0)
         lens=torch.cat((insert_value,lens),dim=0)
         
