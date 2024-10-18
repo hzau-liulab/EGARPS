@@ -62,4 +62,11 @@ Download metadata from http://liulab.hzau.edu.cn/EGARPS/data.html and unzip it t
 We showed how to obtain prediction results and create success rate curves in our [tutorial notebook](./notebooks/performance.ipynb). Users can follow along to replicate these procedures.
 
 # Citation
-Graph learning-based scoring of RNA-protein complex structures using EGARPS. *Submitted*, 2024.
+```
+@article{EGARPS,
+  title={Graph learning-based scoring of RNA-protein complex structures using EGARPS},
+  author={Zheng Jiang, Rong Liu},
+  journal={},
+  year={2024},
+}
+```
