@@ -42,13 +42,21 @@ We conducted training and testing of EGARPS on Linux with PyTorch 1.12.1 and DGL
 Users need to modify and double-check the execution paths of previously compiled third-party software.  
 
 # Usage
-## 1. Download model weights
+### Scoring a specific complex structure
+#### Download model weights
 Download EGARPS model weights from [this link](https://drive.google.com/file/d/1Fux72Ayp1g_k7yxytfA0ki_WSoxX51Aa/view?usp=drive_link) and unzip it to the ***weights*** folder (seven .pth file in total).  
- 
-## 3. Run EGARPS for prediction
-    cd ./scripts/
-    python predict.py ../example/complex1.pdb
+#### Run EGARPS for prediction
+```
+cd ./scripts/
+python predict.py ../example/complex1.pdb
+```
 By doing so, EGARPS will evaluate the structure of ***complex1.pdb*** and output the results to ***result.txt***. The first column of the result file contains the ID of the RNA-protein complex, and the second column contains the probability of it being a native structure.  
+For users without *NACCESS* and *DSSR* licenses, we offer a reduced version of EGARPS. This version may experience a slight decrease in model performance. Just add the *-non-academic* parameter at runtime:  
+```
+python predict.py -non-academic ../example/complex1.pdb
+```
+### Reproducing the results from the manuscript
+
 
 # Citation
 Graph learning-based scoring of RNA-protein complex structures using EGARPS. *Submitted*, 2024.
