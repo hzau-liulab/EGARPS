@@ -17,15 +17,34 @@ NACCESS http://www.bioinf.manchester.ac.uk/naccess/
 DSSR https://x3dna.org/  
 Users need to download and compile the software on their own machines.
 
+# Configuration
+**The python environment to run EGARPS can be set up in one of three ways:**  
+1. Creating a conda environment from a YAML file  
+```
+conda env create -f environment.yml
+conda activate EGARPS
+```
+2. Following the instructions below  
+```
+conda creat --name EGARPS python=3.10
+conda activate EGARPS
+conda install -c conda-forge -c schrodinger pymol-bundle
+conda install conda-forge::pdbfixer
+pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
+conda install dglteam/label/cu116::dgl=1.0.1
+pip install atom3 biopandas fair-esm rna-fm
+```
+We conducted training and testing of EGARPS on Linux with PyTorch 1.12.1 and DGL 1.0.1. Different versions of these libraries may potentially impact the results.  
+
+3. From docker  
+
+**Edit the config file (***scripts/config.json***)**  
+Users need to modify and double-check the execution paths of previously compiled third-party software.  
+
 # Usage
 ## 1. Download model weights
-Download EGARPS model weights from [this link](https://drive.google.com/file/d/1Fux72Ayp1g_k7yxytfA0ki_WSoxX51Aa/view?usp=drive_link) and place it (.pth file) into the ***weights*** folder.  
-## 2. Configuration
-Create and activate the runtime environment for EGARPS.  
-    conda env create -f environment.yml  
-    conda activate EGARPS  
-&  
-Edit the config file (***scripts/config.json***). Users need to modify and double-check the execution paths of previously compiled third-party software.  
+Download EGARPS model weights from [this link](https://drive.google.com/file/d/1Fux72Ayp1g_k7yxytfA0ki_WSoxX51Aa/view?usp=drive_link) and unzip it to the ***weights*** folder (seven .pth file in total).  
+ 
 ## 3. Run EGARPS for prediction
     cd ./scripts/
     python predict.py ../example/complex1.pdb
