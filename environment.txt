@@ -1,0 +1,6 @@
+conda creat --name EGARPS python=3.10
+conda install -c conda-forge -c schrodinger pymol-bundle
+conda install conda-forge::pdbfixer
+pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
+conda install dglteam/label/cu116::dgl=1.0.1
+pip install atom3 biopandas fair-esm rna-fm
