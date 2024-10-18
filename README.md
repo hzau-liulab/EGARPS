@@ -56,7 +56,10 @@ For users without *NACCESS* and *DSSR* licenses, we offer a reduced version of E
 python predict.py -non-academic ../example/complex1.pdb
 ```
 ### Reproducing the results from the manuscript
-
+#### Download metadata
+Download metadata from http://liulab.hzau.edu.cn/EGARPS/data.html and unzip it to the ***metadata*** folder (100G storage space needed).
+#### Check out the notebook
+We showed how to obtain prediction results and create success rate curves in our [tutorial notebook](./notebooks/performance.ipynb). Users can follow along to replicate these procedures.
 
 # Citation
 Graph learning-based scoring of RNA-protein complex structures using EGARPS. *Submitted*, 2024.
