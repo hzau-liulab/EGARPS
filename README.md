@@ -34,7 +34,7 @@ conda install dglteam/label/cu116::dgl=1.0.1
 pip install atom3 biopandas fair-esm rna-fm
 pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
 ```
-  We conducted training and testing of EGARPS on Linux with PyTorch 1.12.1 and DGL 1.0.1. Different versions of these libraries may potentially impact the results.  
+&emsp;&emsp;We conducted training and testing of EGARPS on Linux with PyTorch 1.12.1 and DGL 1.0.1. Different versions of these libraries may potentially impact the results.  
 
 3. From docker  
 Download docker image from http://liulab.hzau.edu.cn/EGARPS/data.html.  
@@ -43,10 +43,10 @@ docker load -i image_egarps.tar
 docker run --name egarps -it image_egarps
 conda activate EGARPS
 ```
-Note: Only the python environment is provided in the container, no scripts or third-party software is included.  
+&emsp;&emsp;Note: Only the python environment is provided in the container, no scripts or third-party software is included.  
 
 **Edit the config file (***scripts/config.json***)**  
-Users need to modify and double-check the execution paths of previously compiled third-party software.  
+&emsp;&emsp;Users need to modify and double-check the execution paths of previously compiled third-party software.  
 
 # Usage
 ### Scoring a specific complex structure
