@@ -43,7 +43,7 @@ docker load -i image_egarps.tar
 docker run --name egarps -it image_egarps
 conda activate EGARPS
 ```
-  Note: Only the python environment is provided in the container, no scripts or third-party software is included.  
+Note: Only the python environment is provided in the container, no scripts or third-party software is included.  
 
 **Edit the config file (***scripts/config.json***)**  
 Users need to modify and double-check the execution paths of previously compiled third-party software.  
