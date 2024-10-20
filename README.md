@@ -66,7 +66,7 @@ python predict.py -non-academic ../example/complex1.pdb
 #### Download metadata
 Download metadata from http://liulab.hzau.edu.cn/EGARPS/data.html and unzip it to the ***metadata*** folder (100G storage space needed).
 #### Consult the notebook
-We showed how to obtain prediction results and create success rate curves in our [tutorial notebook](./notebooks/performance.ipynb). Users can follow along to replicate these procedures.
+We showed how to obtain prediction results and plot success rate curves in our [tutorial notebook](./notebooks/performance.ipynb). Users can follow along to replicate these procedures.
 
 # Citation
 ```
