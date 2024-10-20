@@ -26,17 +26,18 @@ conda activate EGARPS
 ```
 2. Following the instructions below  
 ```
-conda creat --name EGARPS python=3.10
+conda create --name EGARPS python=3.10
 conda activate EGARPS
 conda install -c conda-forge -c schrodinger pymol-bundle
 conda install conda-forge::pdbfixer
-pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
 conda install dglteam/label/cu116::dgl=1.0.1
 pip install atom3 biopandas fair-esm rna-fm
+pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
 ```
 We conducted training and testing of EGARPS on Linux with PyTorch 1.12.1 and DGL 1.0.1. Different versions of these libraries may potentially impact the results.  
 
 3. From docker  
+
 
 **Edit the config file (***scripts/config.json***)**  
 Users need to modify and double-check the execution paths of previously compiled third-party software.  
@@ -58,7 +59,7 @@ python predict.py -non-academic ../example/complex1.pdb
 ### Reproducing the results from the manuscript
 #### Download metadata
 Download metadata from http://liulab.hzau.edu.cn/EGARPS/data.html and unzip it to the ***metadata*** folder (100G storage space needed).
-#### Check out the notebook
+#### Consult the notebook
 We showed how to obtain prediction results and create success rate curves in our [tutorial notebook](./notebooks/performance.ipynb). Users can follow along to replicate these procedures.
 
 # Citation
