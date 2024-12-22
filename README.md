@@ -34,7 +34,7 @@ conda install dglteam/label/cu116::dgl=1.0.1
 pip install atom3 biopandas fair-esm rna-fm
 pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
 ```
-&emsp;&emsp;We conducted training and testing of EGARPS on Linux with PyTorch 1.12.1 and DGL 1.0.1. Different versions of these libraries may potentially impact the results.  
+&emsp;&emsp;We conducted training and testing of EGARPS+ on Linux with PyTorch 1.12.1 and DGL 1.0.1. Different versions of these libraries may potentially impact the results.  
 
 3. From docker  
 Download docker image from http://liulab.hzau.edu.cn/EGARPS/data.html.  
