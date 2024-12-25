@@ -36,7 +36,7 @@ pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --e
 &emsp;&emsp;We conducted training and testing of EGARPS+ on Linux with PyTorch 1.12.1 and DGL 1.0.1. Different versions of these libraries may potentially impact the results.  
 
 3. From docker  
-Download docker image from http://liulab.hzau.edu.cn/EGARPS/data.html.  
+Download docker image from [here](http://liulab.hzau.edu.cn/EGARPS/data.html).  
 ```
 docker load -i image_egarps.tar
 docker run --name egarps -it image_egarps
@@ -63,7 +63,7 @@ python predict.py -non-academic ../example/complex1.pdb
 ```
 ### Reproducing the results from the manuscript
 #### Download metadata
-Download metadata from http://liulab.hzau.edu.cn/EGARPS/data.html and unzip it to the ***metadata*** folder (100G storage space needed).
+Download metadata from [here](http://liulab.hzau.edu.cn/EGARPS/data.html) and unzip it to the ***metadata*** folder (100G storage space needed).
 #### Consult the notebook
 We showed how to obtain prediction results and plot success rate curves in our [tutorial notebook](./notebooks/performance.ipynb). Users can follow along to replicate these procedures.
 
