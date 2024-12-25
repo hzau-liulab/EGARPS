@@ -1,4 +1,4 @@
-# EGARPS
+# EGARPS+: Graph learning-based scoring of RNA-protein complex structures
 # Description
 EGARPS+ is a novel tool for evaluating protein-RNA complex structures, which achieves high accuracy by integrating well-designed intermolecular and intramolecular modules with a series of biophysically inspired descriptors. Extensive evaluations illustrated that EGARPS+ significantly outperformed existing methods on both bound and unbound datasets. Our top 1 success rate was more than twice that of the CNN-based approach. Besides, EGARPS+ can improve the performance of de novo RNA-protein complex prediction.  
 ![image](img/F1.png)  
